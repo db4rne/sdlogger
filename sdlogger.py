@@ -22,7 +22,7 @@ WRITETIME = time.ticks_ms()
 
 UART0 = UART(0, baudrate=115200, rx=20, tx=21, rxbuf=BUFSIZE_RXBUF)
 SDSPI = SPI(1,
-            baudrate=40000000,
+            baudrate=1320000, # will be overwritten by sdcard.py
             polarity=0,
             phase=0,
             bits=8,
