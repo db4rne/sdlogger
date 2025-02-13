@@ -1,5 +1,11 @@
 #! /usr/bin/python
 
+BUFSIZE_BUFFER = const(49 * 1024)
+BUFSIZE_RXBUF = const(32 * 1024)
+BUF_THRESHOLD = const(16 * 1024)
+UART_TIMEOUT = const(1000) # timeout to start writing in ms
+BUFFER = bytearray(BUFSIZE_BUFFER)
+
 import os, vfs
 import time
 
@@ -8,11 +14,6 @@ from machine import SPI
 from machine import Pin
 from sdcard import SDCard
 
-BUFSIZE_BUFFER = const(49 * 1024)
-BUFSIZE_RXBUF = const(32 * 1024)
-BUF_THRESHOLD = const(16 * 1024)
-UART_TIMEOUT = const(1000) # timeout to start writing in ms
-BUFFER = bytearray(BUFSIZE_BUFFER)
 BUF_POS = 0
 SD_MOUNT = '/sd'
 LOG_FOLDER = 'logs'
