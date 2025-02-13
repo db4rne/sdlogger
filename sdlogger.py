@@ -1,4 +1,4 @@
-#! /usr/bin/python
+# SPDX-License-Identifier: GPL-2.0-or-later
 
 BUFSIZE_BUFFER = const(49 * 1024)
 BUFSIZE_RXBUF = const(32 * 1024)
