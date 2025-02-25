@@ -1,0 +1,9 @@
+services:
+  nginx:
+    image: nginx:mainline-bookworm
+    restart: unless-stopped
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - /home/arne/hacks/mpy_sdlogger/firmware_update:/data:ro
+    ports:
+      - 8090:80
