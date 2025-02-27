@@ -51,8 +51,8 @@ def upload_file(filename):
     return jsonify({})
 
 if __name__ == '__main__':
-    host = "192.168.133.197"
-    port = 80
+    host = "127.0.0.1"
+    port = 8080
 
     if len(sys.argv) > 1:
         host = sys.argv[1]
