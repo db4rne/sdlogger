@@ -7,7 +7,7 @@ then
 	exit 1
 fi
 
-tar -czf firmware_update/firmware.tar.gz main.py
+tar -czf firmware_update/firmware.tar.gz main.py uota.cfg
 checksum=$(sha256sum firmware_update/firmware.tar.gz | cut -d ' ' -f 1)
 
 # write new line into firmware_update/latest file
