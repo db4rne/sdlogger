@@ -250,6 +250,8 @@ def sd_read_chunks(file):
     buf = bytearray(512)
     mv = memoryview(buf)
     while True:
+        gc.collect()
+        debug(f"gc.mem_free: {gc.mem_free()}")
         length = fd.readinto(mv)
         debug(f"read {length} bytes {fd.tell()}, garbage: {gc.mem_free()}")
         yield mv[0:length - 1]
