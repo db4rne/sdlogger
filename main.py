@@ -22,7 +22,8 @@ from machine import WDT
 from machine import reset
 from sdcard import SDCard
 
-DEBUG = True # set True for debug output
+DEBUG = True
+# set True for debug output
 
 BUF_POS = 0
 SD_MOUNT = '/sd'
@@ -225,6 +226,9 @@ def exec_upload(cmd):
     global LOG_FOLDER
     global OLD_LOG_FOLDER
     del BUFFER # delete buffer to free some memory for upload process
+    global UART0
+    UART0.deinit()
+    del UART0
     gc.collect()
     debug(f"free memory before network connect: {gc.mem_free()}")
     network_connect(cmd)
@@ -266,6 +270,9 @@ def exec_uota(cmd):
     # wlan_password - optional
     global BUFFER
     del BUFFER
+    global UART0
+    UART0.deinit()
+    del UART0
     gc.collect()
     import uota
     network_connect(cmd)
