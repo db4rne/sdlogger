@@ -190,7 +190,8 @@ def exec_cmd(json_cmd):
         exec_reset(cmd)
     elif cmd['cmd'] == "telemetry":
         exec_telemetry(cmd)
-
+    elif cmd['cmd'] == "webrepl":
+        exec_webrepl(cmd)
 
 def exec_rtc(cmd):
     global RTC0
@@ -305,6 +306,16 @@ def exec_telemetry(cmd):
     debug(f"telemetry URL: {URL}")
     r = requests.request("GET", URL, timeout=60)
     reset()
+
+def exec_webrepl(cmd):
+    # options:
+    # wlan_ssid
+    # wlan_password - optional
+    # webrepl_pass
+    setup_wdt(3600)
+    network_connect(cmd)
+    import webrepl
+    webrepl.start(password=cmd['webrepl_pass'])
 
 def control():
     """main control loop"""
