@@ -223,6 +223,9 @@ def prepare_lowmem():
     del UART0
     gc.collect()
 
+def setup_wdt(seconds):
+    from machine import WDT
+    wdt = WDT(timeout = seconds * 1000)
 
 def exec_upload(cmd):
     # options:
@@ -235,6 +238,7 @@ def exec_upload(cmd):
     global OLD_LOG_FOLDER
     prepare_lowmem()
     debug(f"free memory before network connect: {gc.mem_free()}")
+    setup_wdt(3600)
     network_connect(cmd)
     # upload file to server
     import requests
@@ -273,6 +277,7 @@ def exec_uota(cmd):
     # wlan_ssid
     # wlan_password - optional
     prepare_lowmem()
+    setup_wdt(3600)
     import uota
     network_connect(cmd)
     if uota.check_for_updates():
