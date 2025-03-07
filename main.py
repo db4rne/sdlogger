@@ -215,21 +215,25 @@ def network_connect(cmd):
             pass
     debug("wlan connected")
 
+def prepare_lowmem():
+    global BUFFER
+    del BUFFER # delete buffer to free some memory for upload process
+    global UART0
+    UART0.deinit()
+    del UART0
+    gc.collect()
+
+
 def exec_upload(cmd):
     # options:
     # wlan_ssid
     # wlan_password - optional
     # upload_server
     # router_mac - MACaddress of the router
-    global BUFFER
     global URL_ACCESS_TOKEN
     global LOG_FOLDER
     global OLD_LOG_FOLDER
-    del BUFFER # delete buffer to free some memory for upload process
-    global UART0
-    UART0.deinit()
-    del UART0
-    gc.collect()
+    prepare_lowmem()
     debug(f"free memory before network connect: {gc.mem_free()}")
     network_connect(cmd)
     # upload file to server
@@ -268,12 +272,7 @@ def exec_uota(cmd):
     # options:
     # wlan_ssid
     # wlan_password - optional
-    global BUFFER
-    del BUFFER
-    global UART0
-    UART0.deinit()
-    del UART0
-    gc.collect()
+    prepare_lowmem()
     import uota
     network_connect(cmd)
     if uota.check_for_updates():
