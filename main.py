@@ -238,7 +238,7 @@ def exec_upload(cmd):
     global OLD_LOG_FOLDER
     prepare_lowmem()
     debug(f"free memory before network connect: {gc.mem_free()}")
-    setup_wdt(3600)
+    setup_wdt(1200)
     network_connect(cmd)
     # upload file to server
     import requests
