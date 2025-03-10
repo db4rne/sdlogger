@@ -22,7 +22,7 @@ from machine import WDT
 from machine import reset
 from sdcard import SDCard
 
-DEBUG = False
+DEBUG = True
 # set True for debug output
 
 BUF_POS = 0
@@ -188,6 +188,9 @@ def exec_cmd(json_cmd):
         exec_uota(cmd)
     elif cmd['cmd'] == "reset":
         exec_reset(cmd)
+    elif cmd['cmd'] == "telemetry":
+        exec_telemetry(cmd)
+
 
 def exec_rtc(cmd):
     global RTC0
@@ -282,6 +285,25 @@ def exec_uota(cmd):
     network_connect(cmd)
     if uota.check_for_updates():
         uota.install_new_firmware()
+    reset()
+
+def exec_telemetry(cmd):
+    # options:
+    # wlan_ssid
+    # wlan_password - optional
+    # telemetry_server
+    prepare_lowmem()
+    setup_wdt(300)
+    network_connect(cmd)
+    import requests
+    f = open('version', 'r')
+    VERSION = f.read().strip()
+    from machine import unique_id
+    MACADDR = unique_id().hex()
+    debug(f"MACADDR: {MACADDR}")
+    URL = cmd['telemetry_server'] + '/' + VERSION + '/' + MACADDR
+    debug(f"telemetry URL: {URL}")
+    r = requests.request("GET", URL, timeout=60)
     reset()
 
 def control():
