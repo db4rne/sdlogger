@@ -28,7 +28,7 @@ DEBUG = False
 BUF_POS = 0
 SD_MOUNT = '/sd'
 LOG_FOLDER = 'logs'
-OLD_LOG_FOLDER = 'old_logs'
+OLD_LOG_FOLDER = 'oldfiles'
 LOG_FILENAME = 'logfile.log'
 LOG_PATH = SD_MOUNT + '/' + LOG_FOLDER + '/' + LOG_FILENAME
 CMD_PREFIX = const(b"__sdlogger__ {")
@@ -231,6 +231,17 @@ def setup_wdt(seconds):
     from machine import WDT
     wdt = WDT(timeout = seconds * 1000)
 
+def find_old_log_folder():
+    dirls = os.listdir(SD_MOUNT + '/' + OLD_LOG_FOLDER)
+    x = -1
+    for dir in dirls:
+        t  = int(dir)
+        if t > x:
+            x = t
+    x = x + 1
+    path = SD_MOUNT + '/' + OLD_LOG_FOLDER + '/' + str(x)
+    return path
+
 def exec_upload(cmd):
     # options:
     # wlan_ssid
@@ -247,7 +258,9 @@ def exec_upload(cmd):
     # upload file to server
     import requests
     logpath = SD_MOUNT + '/' + LOG_FOLDER
-    old_logpath = SD_MOUNT + '/' + OLD_LOG_FOLDER
+    old_logpath = find_old_log_folder()
+    debug(f"folder for old logs: {old_logpath}")
+    os.mkdir(old_logpath)
     ls = os.listdir(logpath)
     debug("files to upload: " + str(ls))
     for file in ls:
