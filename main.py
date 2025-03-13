@@ -22,7 +22,7 @@ from machine import WDT
 from machine import reset
 from sdcard import SDCard
 
-DEBUG = True
+DEBUG = False
 # set True for debug output
 
 BUF_POS = 0
