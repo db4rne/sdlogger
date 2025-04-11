@@ -212,6 +212,7 @@ def network_connect(cmd):
     debug("connecting to ssid " + str(cmd['wlan_ssid']) + " password: " + str(cmd['wlan_password']))
     import network
     wlan = network.WLAN(network.WLAN.IF_STA)
+    wlan.config(txpower=3)
     wlan.active(True)
     if not wlan.isconnected():
         wlan.connect(cmd['wlan_ssid'], cmd['wlan_password'])
